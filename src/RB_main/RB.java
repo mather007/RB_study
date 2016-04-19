@@ -1,5 +1,9 @@
 package RB_main;
 
+import java.lang.reflect.Array;
+import java.util.Set;
+import java.util.Timer;
+
 import util.Util;
 
 public class RB {
@@ -37,12 +41,33 @@ public class RB {
 		this.Q = new int[t][q][k];
 		
 		for(int i = 0;i < t; i++){
-			Util.randomCommon(1,N,k);
+			int[] temp = Util.randomCommon(1, N, k);
+			C[i] = temp;//约束中的变量集合
+			int j = 0;
+			while(j < q){
+				int[] temp1 = Util.randomCommon(0, d-1, k);
+				if(!Util.is_inQ(Q[i], temp1, j)){
+					Q[i][j] = temp1;
+					j++;
+				}
+			}
 		}
 	}
 	
 	
-	
+	public int count_enable_num(int[] assi){
+		int nums = 0;
+		for (int i = 0;i < t;i++){
+			int[] temp = new int[k];
+			for (int j = 0;j < k;j++){
+				temp[j] =  assi[C[i][j]];
+			}
+			if(Util.is_inQ(Q[i], temp, q)){
+				nums++;
+			}
+		}
+		return nums;
+	}
 	
 	
 	public int getK() {
@@ -205,9 +230,25 @@ public class RB {
 
 
 
+	/**
+	 * @param args
+	 */
 	public static void main(String[] args) {
-		Math.log(Math.E);
-		System.out.println(Math.log(Math.E));
-		System.out.println(Math.E);
+		int k = 2;
+		int N = 100;
+		double alfa = 0.8;
+		double r = 3;
+		double p =0.2;
+		long time1 = System.currentTimeMillis();
+		RB rb = new RB(k,N,alfa,r,p);
+		long time2 = System.currentTimeMillis();
+		int[][] C = rb.getC();
+		int[][][] Q = rb.getQ();
+		System.out.println((time2-time1));
+		System.out.println(C.length);
+		System.out.println(Q[1].length);
+		System.out.println(rb.getT());
+		System.out.println(rb.getQ1());
+		System.out.println(rb.getD());
 	}
 }

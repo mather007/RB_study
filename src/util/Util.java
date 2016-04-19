@@ -32,6 +32,28 @@ public class Util {
 	    return result;  
 	}  
 
-	
-	
+	/**
+	 * @author zhiqiang
+	 * @param Q 要检查的（数组）矩阵
+	 * @param q 被检查的数组
+	 * @param j 检查到Q的第几行
+	 */
+	public static boolean is_inQ(int[][] Q,int[] q,int j){
+		if(j==0){
+			return false;
+		}else{
+			for(int i = 0 ; i < j ; i++){
+				int res = 0;
+				for (int w = 0; w < q.length; w++){
+					if (Q[i][w]==q[w]){
+						res += 1;
+					}
+				}
+				if(res == q.length){//如果全相等返回真
+					return true;
+				}
+			}
+		}
+		return false;
+	}
 }
