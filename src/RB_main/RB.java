@@ -1,8 +1,6 @@
 package RB_main;
 
-import java.lang.reflect.Array;
-import java.util.Set;
-import java.util.Timer;
+import java.util.Arrays;
 
 import util.Util;
 
@@ -45,7 +43,7 @@ public class RB {
 			C[i] = temp;//约束中的变量集合
 			int j = 0;
 			while(j < q){
-				int[] temp1 = Util.randomCommon(0, d-1, k);
+				int[] temp1 = Util.randomCanRe(0, d-1, k);
 				if(!Util.is_inQ(Q[i], temp1, j)){
 					Q[i][j] = temp1;
 					j++;
@@ -60,7 +58,7 @@ public class RB {
 		for (int i = 0;i < t;i++){
 			int[] temp = new int[k];
 			for (int j = 0;j < k;j++){
-				temp[j] =  assi[C[i][j]];
+				temp[j] =  assi[C[i][j]-1];
 			}
 			if(Util.is_inQ(Q[i], temp, q)){
 				nums++;
@@ -239,16 +237,36 @@ public class RB {
 		double alfa = 0.8;
 		double r = 3;
 		double p =0.2;
+				
 		long time1 = System.currentTimeMillis();
 		RB rb = new RB(k,N,alfa,r,p);
 		long time2 = System.currentTimeMillis();
+		System.out.println("生成的时间："+(time2-time1));
+		int[] sol = Util.randomCanRe(0, rb.getD()-1, N);
+		System.out.println(Arrays.toString(sol));
+		
+		long time3 = System.currentTimeMillis();
+		int res1 = rb.count_enable_num(sol);
+		long time4 = System.currentTimeMillis();
+		
+		System.out.println("计数的时间："+(time4-time3));
+		System.out.println(res1);
+		
 		int[][] C = rb.getC();
 		int[][][] Q = rb.getQ();
-		System.out.println((time2-time1));
-		System.out.println(C.length);
-		System.out.println(Q[1].length);
-		System.out.println(rb.getT());
-		System.out.println(rb.getQ1());
-		System.out.println(rb.getD());
+		
+		for (int i = 0; i < C.length; i++) {
+			System.out.println(Arrays.toString(C[i]));
+		}
+		System.err.println("-----------------------------");
+		int[][] lnQ = new int[rb.getQ1()][k*rb.getT()];
+		for (int j = 0; j < rb.getQ1(); j++) {
+			for (int i = 0; i < Q.length; i++) {
+				for (int j2 = 0; j2 < k; j2++) {
+					lnQ[j][k*i + j2] = Q[i][j][j2];
+				}
+			}
+			System.out.println(Arrays.toString(lnQ[j]));
+		}
 	}
 }
