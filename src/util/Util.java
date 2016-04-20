@@ -1,6 +1,8 @@
 package util;
 
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Random;
 
 public class Util {
 	
@@ -53,6 +55,47 @@ public class Util {
 	    return result;  
 	}  
 
+	
+	/**
+	 * 速度比randCommon快
+	 * 随机指定范围内N个不重复的数 在初始化的无重复待选数组中随机产生一个数放入结果中，
+	 * 将待选数组被随机到的数，用待选数组(len-1)下标对应的数替换 然后从len-2里随机产生下一个随机数，如此类推
+	 * 
+	 * @param max 指定范围最大值
+	 *            
+	 * @param min 指定范围最小值
+	 *            
+	 * @param n 随机数个数
+	 *            
+	 * @return int[] 随机数结果集
+	 */
+	public static int[] randomArray(int min, int max, int n) {
+		int len = max - min + 1;
+
+		if (max < min || n > len) {
+			return null;
+		}
+
+		// 初始化给定范围的待选数组
+		int[] source = new int[len];
+		for (int i = min; i < min + len; i++) {
+			source[i - min] = i;
+		}
+		Random rd = new Random();
+		int[] result = new int[n];
+		int index = 0;
+		for (int i = 0; i < result.length; i++) {
+			// 待选数组0到(len-2)随机一个下标
+			index = Math.abs(rd.nextInt() % len--);
+			// 将随机到的数放入结果集
+			result[i] = source[index];
+			// 将待选数组中被随机到的数，用待选数组(len-1)下标对应的数替换
+			source[index] = source[len];
+		}
+		return result;
+	}
+	
+	
 	/**
 	 * @author zhiqiang
 	 * @param Q 要检查的（数组）矩阵
@@ -78,10 +121,53 @@ public class Util {
 		return false;
 	}
 	
+	/**
+	 * 寻找给定参数的最大值和最小值
+	 * @param array
+	 * @return 返回一个HashMap，对应"max"，"min"，"max_index"，"min_index"四个键值分别对应最大值，
+	 * 最小值，最大值下标，最小值下标
+	 */
+	public static HashMap<String, Integer> max_min(int[] array){
+		if (array == null){
+			return null;
+		}
+		if (array.length < 1){
+			return null;
+		}
+		HashMap<String, Integer> hm = new HashMap<>();
+		int min = array[0];
+		int max = array[0];
+		int min_index = 0;
+		int max_index = 0;
+		for (int i = 0; i < array.length; i++) {
+			if (min > array[i]) {
+				min = array[i];
+				min_index = i;
+			}
+			if (max < array[i]) {
+				max = array[i];
+				max_index = i;
+			}
+		}
+		hm.put("max", max);
+		hm.put("min", min);
+		hm.put("max_index", max_index);
+		hm.put("min_index", min_index);
+		return hm;
+	}
 	
 	public static void main(String[] args) {
-		for (int i = 0; i < 1000; i++) {
-			System.out.println(Arrays.toString(randomCanRe(0, 10, 2)));
-		}
+//		int[] aa = {1,2,4,4,12,1,3,4,2};
+//		int[] bb = aa.clone();
+//		int[] cc = {};
+//		System.out.println(max_min(aa));
+//		Arrays.sort(aa);
+//		System.out.println(Arrays.toString(bb));
+//		System.out.println(Arrays.toString(aa));
+//		System.out.println((aa[aa.length-1]));
+		long time1 = System.currentTimeMillis();
+		System.out.println(Arrays.toString(randomArray(1, 1382, 1382)));
+		long time2 = System.currentTimeMillis();
+		System.out.println(time2-time1);
 	}
 }

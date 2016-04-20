@@ -3,7 +3,10 @@ package RB_main;
 import java.util.Arrays;
 
 import util.Util;
-
+/**
+ * 此类用于生产RB模型的随机实例。
+ * 
+ */
 public class RB {
 	
 	//约束长度
@@ -242,15 +245,18 @@ public class RB {
 		RB rb = new RB(k,N,alfa,r,p);
 		long time2 = System.currentTimeMillis();
 		System.out.println("生成的时间："+(time2-time1));
-		int[] sol = Util.randomCanRe(0, rb.getD()-1, N);
-		System.out.println(Arrays.toString(sol));
 		
-		long time3 = System.currentTimeMillis();
-		int res1 = rb.count_enable_num(sol);
-		long time4 = System.currentTimeMillis();
+		long times = 0;
+		for (int i = 0; i < 100; i++) {
+			int[] sol = Util.randomCanRe(0, rb.getD()-1, N);
+			long time3 = System.currentTimeMillis();
+			int res1 = rb.count_enable_num(sol);
+			long time4 = System.currentTimeMillis();
+			times  = times + (time4 - time3);
+			System.out.println(res1);
+		}
 		
-		System.out.println("计数的时间："+(time4-time3));
-		System.out.println(res1);
+		System.out.println("计数的时间："+(times));
 		
 		int[][] C = rb.getC();
 		int[][][] Q = rb.getQ();
