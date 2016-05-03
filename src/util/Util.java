@@ -1,5 +1,6 @@
 package util;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Random;
@@ -166,8 +167,15 @@ public class Util {
 //		System.out.println(Arrays.toString(aa));
 //		System.out.println((aa[aa.length-1]));
 		long time1 = System.currentTimeMillis();
-		System.out.println(Arrays.toString(randomArray(1, 1382, 1382)));
+		int[] aaa = randomArray(0, 10-1, 10);
 		long time2 = System.currentTimeMillis();
 		System.out.println(time2-time1);
+		System.out.println(Arrays.toString(aaa));
+		
+		ArrayList<Integer> al = new ArrayList<>();
+		al.add(5);
+		al.add(8);
+		System.out.println(al.toString());
+		System.out.println(al.contains(5));
 	}
 }

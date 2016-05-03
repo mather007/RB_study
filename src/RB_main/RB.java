@@ -1,5 +1,6 @@
 package RB_main;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 
 import util.Util;
@@ -69,7 +70,91 @@ public class RB {
 		}
 		return nums;
 	}
-	
+	/**
+	 * 随机检出一个不满足的约束
+	 */
+	public int return_rand_c(int[] assi){
+		int[] jcsx = Util.randomArray(0, t-1, t);
+		for (int i = 0; i < jcsx.length; i++) {
+			int[] temp = new int[k];
+			for (int j = 0;j < k;j++){
+				temp[j] =  assi[C[i][j]-1];
+			}
+			if(Util.is_inQ(Q[i], temp, q)){
+				return i;
+			}
+		}
+		return t;
+	} 
+	/**
+	 * 返回策略扰动后的赋值
+	 * @param assi 当前赋值
+	 * @param ci 所针对的约束的下标
+	 * 
+	 */
+	public int[] excitationAssi(int[] assi,int ci){
+		int[] temp = new int[k];
+		for(int cii = 0;cii < k;cii++){
+			temp[cii] = C[ci][cii];//ci对应的变量
+		}
+		System.out.println("ci对应的变量："+Arrays.toString(temp));
+		int[] Qi = Util.randomArray(0, k-1, 1);//从0到k中随机一个整数
+		int qi = Qi[0];
+		System.out.println("qi:"+qi);
+		ArrayList<Integer> al = canNotIn(assi,temp,qi,ci);
+		int[] insAssi = Util.randomArray(0, d-1, d);
+		int ass = d;
+		for (int i = 0; i < insAssi.length; i++) {
+			if (al.contains(insAssi[i])) {
+				continue;
+			}else{
+				ass = insAssi[i];
+				break;
+			}
+		}
+		if (ass==d) {
+			return null;
+		}else {
+			assi[temp[qi]-1] = ass;
+			return assi;
+		}
+	} 
+	/**
+	 * 由其他的变量，得来另一个变量的不可兼容值
+	 */
+	public ArrayList<Integer> canNotIn(int[] assi,int[] temp,int qi,int ci){
+		ArrayList<Integer> al = new ArrayList<Integer>();
+		//取出assi中除去qi里存放的变量，剩下变量的当前赋值
+		int[] res = new int[temp.length-1];
+		int index = 0;
+		for (int i = 0; i < temp.length; i++) {
+			if (i==qi) {
+				continue;
+			}
+			res[index] = assi[temp[i]-1];
+			index++;
+		}
+		for (int i = 0; i < q; i++) {
+			int equalsNum = 0;
+			int index_0 = 0;
+			for (int j = 0; j < k; j++) {
+				if (j==qi) {
+					continue;
+				}
+
+				if(Q[ci][i][j] == res[index_0]){
+					equalsNum++;
+				}
+				index_0++;
+				if (equalsNum==k-1) {
+					System.out.println(Q[ci][i][qi]);
+					al.add(Q[ci][i][qi]);
+					System.out.println("al:"+al.toString());
+				}
+			}
+		}
+		return al;
+	}
 	
 	public int getK() {
 		return k;
@@ -235,17 +320,40 @@ public class RB {
 	 * @param args
 	 */
 	public static void main(String[] args) {
+		
+
+		
 		int k = 2;
-		int N = 100;
+		int N = 20;
 		double alfa = 0.8;
 		double r = 3;
 		double p =0.2;
 				
-		long time1 = System.currentTimeMillis();
-		RB rb = new RB(k,N,alfa,r,p);
-		long time2 = System.currentTimeMillis();
-		System.out.println("生成的时间："+(time2-time1));
 		
+		RB rb = new RB(k,N,alfa,r,p);
+		int[][] C = rb.getC();
+		int[][][] Q = rb.getQ();
+		
+		for (int i = 0; i < C.length; i++) {
+			System.out.println(Arrays.toString(C[i]));
+		}
+		System.err.println("-----------------------------");
+		int[][] lnQ = new int[rb.getQ1()][k*rb.getT()];
+		for (int j = 0; j < rb.getQ1(); j++) {
+			for (int i = 0; i < Q.length; i++) {
+				for (int j2 = 0; j2 < k; j2++) {
+					lnQ[j][k*i + j2] = Q[i][j][j2];
+				}
+			}
+			System.out.println(Arrays.toString(lnQ[j]));
+		}
+		int[] sol = Util.randomCanRe(0, rb.getD()-1, N);
+		System.out.println(Arrays.toString(sol));
+		int ci = rb.return_rand_c(sol);
+		System.out.println("ci"+ci);
+		sol = rb.excitationAssi(sol, ci);
+		System.out.println(Arrays.toString(sol));
+		/*
 		long times = 0;
 		for (int i = 0; i < 100; i++) {
 			int[] sol = Util.randomCanRe(0, rb.getD()-1, N);
@@ -274,5 +382,6 @@ public class RB {
 			}
 			System.out.println(Arrays.toString(lnQ[j]));
 		}
+	*/	
 	}
 }
