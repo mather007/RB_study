@@ -156,6 +156,20 @@ public class RB {
 		return al;
 	}
 	
+	
+	/**
+	 * 返回C中指定的约束，所存放的变量
+	 * @param ci 指定的C中的哪一个约束
+	 * @return
+	 */
+	public int[] getCiVar(int ci){
+		int[] temp = new int[k];
+		for(int cii = 0;cii < k;cii++){
+			temp[cii] = C[ci][cii];//ci对应的变量
+		}
+		return temp;
+	}
+	
 	public int getK() {
 		return k;
 	}
