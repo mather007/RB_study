@@ -8,7 +8,7 @@ import java.util.Random;
 public class Util {
 	
 	/**
-	 * 随机指定范围内n个可重复的数
+	 * 随机指定范围内n个可重复的数,可取最大值与最小值
 	 * @param min 指定范围最小值 
 	 * @param max 指定范围最大值 
 	 * @param n 随机数个数 
@@ -27,7 +27,7 @@ public class Util {
 	
 	
 	/** 
-	 * 随机指定范围内N个不重复的数 
+	 * 随机指定范围内N个不重复的数 ，取不到最小值，能取到最大值
 	 * 最简单最基本的方法 
 	 * @param min 指定范围最小值 
 	 * @param max 指定范围最大值 
@@ -58,7 +58,9 @@ public class Util {
 
 	
 	/**
-	 * 速度比randCommon快
+	 * 速度比randCommon快，最大值最小值都可以取到。
+	 * 
+	 * 
 	 * 随机指定范围内N个不重复的数 在初始化的无重复待选数组中随机产生一个数放入结果中，
 	 * 将待选数组被随机到的数，用待选数组(len-1)下标对应的数替换 然后从len-2里随机产生下一个随机数，如此类推
 	 * 
@@ -166,16 +168,17 @@ public class Util {
 //		System.out.println(Arrays.toString(bb));
 //		System.out.println(Arrays.toString(aa));
 //		System.out.println((aa[aa.length-1]));
-		long time1 = System.currentTimeMillis();
-		int[] aaa = randomArray(0, 10-1, 10);
-		long time2 = System.currentTimeMillis();
-		System.out.println(time2-time1);
-		System.out.println(Arrays.toString(aaa));
-		
-		ArrayList<Integer> al = new ArrayList<>();
-		al.add(5);
-		al.add(8);
-		System.out.println(al.toString());
-		System.out.println(al.contains(5));
+//		long time1 = System.currentTimeMillis();
+//		int[] aaa = randomArray(0, 10-1, 10);
+//		long time2 = System.currentTimeMillis();
+//		System.out.println(time2-time1);
+//		System.out.println(Arrays.toString(aaa));
+//		
+//		ArrayList<Integer> al = new ArrayList<>();
+//		al.add(5);
+//		al.add(8);
+//		System.out.println(al.toString());
+//		System.out.println(al.contains(5));
+		System.out.println(7/3);
 	}
 }

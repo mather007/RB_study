@@ -97,10 +97,8 @@ public class RB {
 		for(int cii = 0;cii < k;cii++){
 			temp[cii] = C[ci][cii];//ci对应的变量
 		}
-		System.out.println("ci对应的变量："+Arrays.toString(temp));
 		int[] Qi = Util.randomArray(0, k-1, 1);//从0到k中随机一个整数
 		int qi = Qi[0];
-		System.out.println("qi:"+qi);
 		ArrayList<Integer> al = canNotIn(assi,temp,qi,ci);
 		int[] insAssi = Util.randomArray(0, d-1, d);
 		int ass = d;
@@ -147,9 +145,7 @@ public class RB {
 				}
 				index_0++;
 				if (equalsNum==k-1) {
-					System.out.println(Q[ci][i][qi]);
 					al.add(Q[ci][i][qi]);
-					System.out.println("al:"+al.toString());
 				}
 			}
 		}
@@ -166,6 +162,16 @@ public class RB {
 		int[] temp = new int[k];
 		for(int cii = 0;cii < k;cii++){
 			temp[cii] = C[ci][cii];//ci对应的变量
+		}
+		return temp;
+	}
+	
+	public int[][] getQici(int ci){
+		int[][] temp = new int[q][k];
+		for(int i=0; i < q;i++){
+			for(int j=0;j < k;j++){
+				temp[i][j] = Q[ci][i][j];
+			}
 		}
 		return temp;
 	}
@@ -352,18 +358,23 @@ public class RB {
 			System.out.println(Arrays.toString(C[i]));
 		}
 		System.err.println("-----------------------------");
-		int[][] lnQ = new int[rb.getQ1()][k*rb.getT()];
-		for (int j = 0; j < rb.getQ1(); j++) {
-			for (int i = 0; i < Q.length; i++) {
-				for (int j2 = 0; j2 < k; j2++) {
-					lnQ[j][k*i + j2] = Q[i][j][j2];
-				}
-			}
-			System.out.println(Arrays.toString(lnQ[j]));
-		}
+//		int[][] lnQ = new int[rb.getQ1()][k*rb.getT()];
+//		for (int j = 0; j < rb.getQ1(); j++) {
+//			for (int i = 0; i < Q.length; i++) {
+//				for (int j2 = 0; j2 < k; j2++) {
+//					lnQ[j][k*i + j2] = Q[i][j][j2];
+//				}
+//			}
+//			System.out.println(Arrays.toString(lnQ[j]));
+//		}
 		int[] sol = Util.randomCanRe(0, rb.getD()-1, N);
 		System.out.println(Arrays.toString(sol));
 		int ci = rb.return_rand_c(sol);
+		int[][] Qici = rb.getQici(ci);
+		for (int i = 0; i < rb.getQ1(); i++) {
+			System.out.println(Arrays.toString(Qici[i]));
+		}
+		System.out.println();
 		System.out.println("ci"+ci);
 		sol = rb.excitationAssi(sol, ci);
 		System.out.println(Arrays.toString(sol));
